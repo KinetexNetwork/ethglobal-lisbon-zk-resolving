@@ -1,0 +1,31 @@
+{
+    "trading_tokens": {
+        "100": "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",
+        "5": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"
+    },
+    "collateral": {
+        "token": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+        "chain": "137",
+        "amounts": {
+            "5": 498000000
+        }
+    },
+    "contracts": {
+        "100": "0x0000000000000000000000000000000000000000",
+        "137": "0x0000000000000000000000000000000000000000",
+        "5": "0x0000000000000000000000000000000000000000"
+    },
+    "nodes": {
+        "137": "https://polygon-rpc.com",
+        "10": "https://mainnet.optimism.io",
+        "100": "https://rpc.ankr.com/gnosis",
+        "250": "https://rpcapi.fantom.network",
+        "5": "https://goerli.quiknode.pro"
+    },
+    "gas_prices": {
+        "137": 350,
+        "100": 4,
+        "250": 600,
+        "5": 0.0001
+    }
+}

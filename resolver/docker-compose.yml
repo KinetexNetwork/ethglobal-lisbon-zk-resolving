@@ -1,0 +1,26 @@
+# Service templates
+
+x-service: &service
+  env_file:
+    - .env
+
+
+# Compose
+
+version: '3.9'
+services:
+ 
+  #
+  # mm
+  #
+
+  mm:
+    <<: *service
+    image: mm:latest
+    ports:
+      - $MM_DISCOVERY_PORT:$MM_DISCOVERY_PORT
+
+  mm_redis:
+    image: mm_redis:latest
+    ports:
+      - $MM_REDIS_PORT:$MM_REDIS_PORT
