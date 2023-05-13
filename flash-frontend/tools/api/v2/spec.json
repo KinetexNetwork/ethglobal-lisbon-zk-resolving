@@ -1,0 +1,1061 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "v2",
+        "description": "v2",
+        "version": "v0.0.0"
+    },
+    "paths": {
+        "/api/v0/allowance": {
+            "get": {
+                "tags": [
+                    "Approve"
+                ],
+                "summary": "Get allowance",
+                "description": "Returns token allowance",
+                "operationId": "get_allowance",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Chain Id",
+                            "type": "string"
+                        },
+                        "name": "chain_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Token Address",
+                            "type": "string"
+                        },
+                        "name": "token_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Address",
+                            "type": "string"
+                        },
+                        "name": "user_address",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AllowanceInfo"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/approve": {
+            "get": {
+                "tags": [
+                    "Approve"
+                ],
+                "summary": "Get approve",
+                "description": "Returns call data to approve token",
+                "operationId": "get_approve",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Chain Id",
+                            "type": "string"
+                        },
+                        "name": "chain_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Token Address",
+                            "type": "string"
+                        },
+                        "name": "token_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Address",
+                            "type": "string"
+                        },
+                        "name": "user_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "P2 Contract",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "name": "p2_contract",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionData"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/permit/data": {
+            "get": {
+                "tags": [
+                    "Permit"
+                ],
+                "summary": "Get permit data",
+                "description": "Returns token permit data to sign",
+                "operationId": "get_permit_data",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Chain Id",
+                            "type": "string"
+                        },
+                        "name": "chain_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Token Address",
+                            "type": "string"
+                        },
+                        "name": "token_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Address",
+                            "type": "string"
+                        },
+                        "name": "user_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/PermitMode"
+                                }
+                            ],
+                            "default": "permit"
+                        },
+                        "name": "mode",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Amount",
+                            "exclusiveMinimum": 0.0,
+                            "type": "integer"
+                        },
+                        "name": "amount",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermitData"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/permit/transaction": {
+            "get": {
+                "tags": [
+                    "Permit"
+                ],
+                "summary": "Gets permit transaction",
+                "description": "Returns tokens permit signature",
+                "operationId": "get_permit_transaction",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Chain Id",
+                            "type": "string"
+                        },
+                        "name": "chain_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Token Address",
+                            "type": "string"
+                        },
+                        "name": "token_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Address",
+                            "type": "string"
+                        },
+                        "name": "user_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Deadline",
+                            "exclusiveMinimum": 0.0,
+                            "type": "integer"
+                        },
+                        "name": "deadline",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Permit Signature",
+                            "type": "string"
+                        },
+                        "name": "permit_signature",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Amount",
+                            "exclusiveMinimum": 0.0,
+                            "type": "integer"
+                        },
+                        "name": "amount",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/PermitMode"
+                                }
+                            ],
+                            "default": "permit"
+                        },
+                        "name": "mode",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermitTransaction"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/quote": {
+            "get": {
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Get quote",
+                "description": "Returns quote",
+                "operationId": "get_quote",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "From Chain Id",
+                            "type": "string"
+                        },
+                        "name": "from_chain_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "To Chain Id",
+                            "type": "string"
+                        },
+                        "name": "to_chain_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "From Token Address",
+                            "type": "string"
+                        },
+                        "name": "from_token_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "To Token Address",
+                            "type": "string"
+                        },
+                        "name": "to_token_address",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "From Amount",
+                            "type": "integer"
+                        },
+                        "name": "from_amount",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Quote"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/swaps": {
+            "post": {
+                "tags": [
+                    "Swap"
+                ],
+                "summary": "Create swap",
+                "description": "Creates swap",
+                "operationId": "create_swap",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateSwap"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Swap"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/swaps/{swap_hash}": {
+            "get": {
+                "tags": [
+                    "Swap"
+                ],
+                "summary": "Get swap",
+                "description": "Returns swap",
+                "operationId": "get_swap",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Swap Hash",
+                            "type": "string"
+                        },
+                        "name": "swap_hash",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Swap"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0/swaps/{swap_hash}/confirm": {
+            "post": {
+                "tags": [
+                    "Swap"
+                ],
+                "summary": "Confirm swap",
+                "description": "Sends signed order to MM",
+                "operationId": "confirm_swap",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Swap Hash",
+                            "type": "string"
+                        },
+                        "name": "swap_hash",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmSwap"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Swap"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AllowanceInfo": {
+                "title": "AllowanceInfo",
+                "required": [
+                    "chain_id",
+                    "token_address",
+                    "user_address",
+                    "contract_address",
+                    "allowance"
+                ],
+                "type": "object",
+                "properties": {
+                    "chain_id": {
+                        "title": "Chain Id",
+                        "type": "string"
+                    },
+                    "token_address": {
+                        "title": "Token Address",
+                        "type": "string"
+                    },
+                    "user_address": {
+                        "title": "User Address",
+                        "type": "string"
+                    },
+                    "contract_address": {
+                        "title": "Contract Address",
+                        "type": "string"
+                    },
+                    "allowance": {
+                        "title": "Allowance",
+                        "type": "string"
+                    },
+                    "allowance_p2": {
+                        "title": "Allowance P2",
+                        "type": "string"
+                    }
+                }
+            },
+            "Collateral": {
+                "title": "Collateral",
+                "required": [
+                    "chain_id",
+                    "token_address",
+                    "amount"
+                ],
+                "type": "object",
+                "properties": {
+                    "chain_id": {
+                        "title": "Chain Id",
+                        "type": "string"
+                    },
+                    "token_address": {
+                        "title": "Token Address",
+                        "type": "string"
+                    },
+                    "amount": {
+                        "title": "Amount",
+                        "type": "string"
+                    }
+                }
+            },
+            "ConfirmSwap": {
+                "title": "ConfirmSwap",
+                "required": [
+                    "signature"
+                ],
+                "type": "object",
+                "properties": {
+                    "signature": {
+                        "title": "Signature",
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateSwap": {
+                "title": "CreateSwap",
+                "required": [
+                    "from_chain_id",
+                    "to_chain_id",
+                    "from_token_address",
+                    "to_token_address",
+                    "from_amount",
+                    "user_address"
+                ],
+                "type": "object",
+                "properties": {
+                    "from_chain_id": {
+                        "title": "From Chain Id",
+                        "type": "string"
+                    },
+                    "to_chain_id": {
+                        "title": "To Chain Id",
+                        "type": "string"
+                    },
+                    "from_token_address": {
+                        "title": "From Token Address",
+                        "type": "string"
+                    },
+                    "to_token_address": {
+                        "title": "To Token Address",
+                        "type": "string"
+                    },
+                    "from_amount": {
+                        "title": "From Amount",
+                        "type": "integer"
+                    },
+                    "user_address": {
+                        "title": "User Address",
+                        "type": "string"
+                    },
+                    "permit_transaction": {
+                        "title": "Permit Transaction",
+                        "type": "string"
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "MarketMaker": {
+                "title": "MarketMaker",
+                "required": [
+                    "address"
+                ],
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "title": "Address",
+                        "type": "string"
+                    }
+                }
+            },
+            "Order": {
+                "title": "Order",
+                "required": [
+                    "from_actor",
+                    "from_chain",
+                    "from_token",
+                    "from_amount",
+                    "to_actor",
+                    "to_chain",
+                    "to_token",
+                    "to_amount",
+                    "collateral_chain",
+                    "collateral_amount",
+                    "deadline",
+                    "nonce"
+                ],
+                "type": "object",
+                "properties": {
+                    "from_actor": {
+                        "title": "From Actor",
+                        "type": "string"
+                    },
+                    "from_chain": {
+                        "title": "From Chain",
+                        "type": "string"
+                    },
+                    "from_token": {
+                        "title": "From Token",
+                        "type": "string"
+                    },
+                    "from_amount": {
+                        "title": "From Amount",
+                        "type": "string"
+                    },
+                    "to_actor": {
+                        "title": "To Actor",
+                        "type": "string"
+                    },
+                    "to_chain": {
+                        "title": "To Chain",
+                        "type": "string"
+                    },
+                    "to_token": {
+                        "title": "To Token",
+                        "type": "string"
+                    },
+                    "to_amount": {
+                        "title": "To Amount",
+                        "type": "string"
+                    },
+                    "collateral_chain": {
+                        "title": "Collateral Chain",
+                        "type": "string"
+                    },
+                    "collateral_amount": {
+                        "title": "Collateral Amount",
+                        "type": "string"
+                    },
+                    "deadline": {
+                        "title": "Deadline",
+                        "type": "integer"
+                    },
+                    "nonce": {
+                        "title": "Nonce",
+                        "type": "integer"
+                    }
+                }
+            },
+            "PermitData": {
+                "title": "PermitData",
+                "required": [
+                    "chain_id",
+                    "token_address",
+                    "user_address",
+                    "deadline",
+                    "permit_data",
+                    "mode"
+                ],
+                "type": "object",
+                "properties": {
+                    "chain_id": {
+                        "title": "Chain Id",
+                        "type": "string"
+                    },
+                    "token_address": {
+                        "title": "Token Address",
+                        "type": "string"
+                    },
+                    "user_address": {
+                        "title": "User Address",
+                        "type": "string"
+                    },
+                    "amount": {
+                        "title": "Amount",
+                        "type": "string"
+                    },
+                    "deadline": {
+                        "title": "Deadline",
+                        "type": "integer"
+                    },
+                    "permit_data": {
+                        "title": "Permit Data",
+                        "type": "string"
+                    },
+                    "mode": {
+                        "$ref": "#/components/schemas/PermitMode"
+                    }
+                }
+            },
+            "PermitMode": {
+                "title": "PermitMode",
+                "enum": [
+                    "permit",
+                    "permit2"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "PermitTransaction": {
+                "title": "PermitTransaction",
+                "required": [
+                    "transaction"
+                ],
+                "type": "object",
+                "properties": {
+                    "transaction": {
+                        "title": "Transaction",
+                        "type": "string"
+                    }
+                }
+            },
+            "Quote": {
+                "title": "Quote",
+                "required": [
+                    "from_chain_id",
+                    "to_chain_id",
+                    "from_token_address",
+                    "to_token_address",
+                    "from_amount",
+                    "to_amount",
+                    "eta",
+                    "deadline",
+                    "market_maker",
+                    "collateral"
+                ],
+                "type": "object",
+                "properties": {
+                    "from_chain_id": {
+                        "title": "From Chain Id",
+                        "type": "string"
+                    },
+                    "to_chain_id": {
+                        "title": "To Chain Id",
+                        "type": "string"
+                    },
+                    "from_token_address": {
+                        "title": "From Token Address",
+                        "type": "string"
+                    },
+                    "to_token_address": {
+                        "title": "To Token Address",
+                        "type": "string"
+                    },
+                    "from_amount": {
+                        "title": "From Amount",
+                        "type": "string"
+                    },
+                    "to_amount": {
+                        "title": "To Amount",
+                        "type": "string"
+                    },
+                    "eta": {
+                        "title": "Eta",
+                        "type": "number",
+                        "format": "time-delta"
+                    },
+                    "deadline": {
+                        "title": "Deadline",
+                        "type": "integer"
+                    },
+                    "market_maker": {
+                        "$ref": "#/components/schemas/MarketMaker"
+                    },
+                    "collateral": {
+                        "$ref": "#/components/schemas/Collateral"
+                    }
+                }
+            },
+            "Swap": {
+                "title": "Swap",
+                "required": [
+                    "hash",
+                    "from_chain_id",
+                    "to_chain_id",
+                    "from_token_address",
+                    "to_token_address",
+                    "from_amount",
+                    "to_amount",
+                    "deadline",
+                    "eta",
+                    "market_maker",
+                    "collateral",
+                    "order_data",
+                    "order",
+                    "state"
+                ],
+                "type": "object",
+                "properties": {
+                    "hash": {
+                        "title": "Hash",
+                        "type": "string"
+                    },
+                    "from_chain_id": {
+                        "title": "From Chain Id",
+                        "type": "string"
+                    },
+                    "to_chain_id": {
+                        "title": "To Chain Id",
+                        "type": "string"
+                    },
+                    "from_token_address": {
+                        "title": "From Token Address",
+                        "type": "string"
+                    },
+                    "to_token_address": {
+                        "title": "To Token Address",
+                        "type": "string"
+                    },
+                    "from_amount": {
+                        "title": "From Amount",
+                        "type": "string"
+                    },
+                    "to_amount": {
+                        "title": "To Amount",
+                        "type": "string"
+                    },
+                    "deadline": {
+                        "title": "Deadline",
+                        "type": "integer"
+                    },
+                    "eta": {
+                        "title": "Eta",
+                        "type": "number",
+                        "format": "time-delta"
+                    },
+                    "market_maker": {
+                        "$ref": "#/components/schemas/MarketMaker"
+                    },
+                    "collateral": {
+                        "$ref": "#/components/schemas/Collateral"
+                    },
+                    "order_data": {
+                        "title": "Order Data",
+                        "type": "string"
+                    },
+                    "order": {
+                        "$ref": "#/components/schemas/Order"
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/SwapState"
+                    },
+                    "user_to_mm_tx": {
+                        "$ref": "#/components/schemas/Transaction"
+                    },
+                    "mm_to_user_tx": {
+                        "$ref": "#/components/schemas/Transaction"
+                    }
+                }
+            },
+            "SwapState": {
+                "title": "SwapState",
+                "enum": [
+                    "awaiting_signature",
+                    "awaiting_transactions",
+                    "cancelled_no_withdraw",
+                    "cancelled_awaiting_withdraw",
+                    "cancelled_withdrawn",
+                    "completed"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "Transaction": {
+                "title": "Transaction",
+                "required": [
+                    "chain_id",
+                    "txid",
+                    "explorer_url"
+                ],
+                "type": "object",
+                "properties": {
+                    "chain_id": {
+                        "title": "Chain Id",
+                        "type": "string"
+                    },
+                    "txid": {
+                        "title": "Txid",
+                        "type": "string"
+                    },
+                    "explorer_url": {
+                        "title": "Explorer Url",
+                        "type": "string"
+                    }
+                }
+            },
+            "TransactionData": {
+                "title": "TransactionData",
+                "required": [
+                    "chain_id",
+                    "data",
+                    "to_address",
+                    "from_address"
+                ],
+                "type": "object",
+                "properties": {
+                    "chain_id": {
+                        "title": "Chain Id",
+                        "type": "string"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "string"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "type": "string"
+                    },
+                    "to_address": {
+                        "title": "To Address",
+                        "type": "string"
+                    },
+                    "from_address": {
+                        "title": "From Address",
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

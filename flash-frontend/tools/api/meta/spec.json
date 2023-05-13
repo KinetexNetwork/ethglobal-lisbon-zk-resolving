@@ -1,0 +1,655 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "xSwap Meta API",
+        "description": "xSwap Meta service API",
+        "version": "v2.0.0"
+    },
+    "paths": {
+        "/api/v2/meta/fiats/list": {
+            "get": {
+                "tags": [
+                    "Fiat"
+                ],
+                "summary": "Get fiat info list",
+                "description": "Returns list of infos for all supported fiats",
+                "operationId": "get_fiat_list",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Fiats",
+                            "type": "array",
+                            "items": {
+                                "pattern": "^[a-z]{3}$",
+                                "type": "string"
+                            }
+                        },
+                        "name": "fiats",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FiatList"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/meta/fiats/item/{fiat}": {
+            "get": {
+                "tags": [
+                    "Fiat"
+                ],
+                "summary": "Get fiat info",
+                "description": "Returns infos of supported fiat",
+                "operationId": "get_fiat_list",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Fiat",
+                            "pattern": "^[a-z]{3}$",
+                            "type": "string"
+                        },
+                        "name": "fiat",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FiatInfo"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/meta/prices/list": {
+            "get": {
+                "tags": [
+                    "Price"
+                ],
+                "summary": "Get price info list",
+                "description": "Returns list of price infos for all known assets",
+                "operationId": "get_price_list",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Fiat",
+                            "pattern": "^[a-z]{3}$",
+                            "type": "string",
+                            "default": "usd"
+                        },
+                        "name": "fiat",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PriceList"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/meta/prices/dict": {
+            "get": {
+                "tags": [
+                    "Price"
+                ],
+                "summary": "Get price info dict",
+                "description": "Returns dict of price infos by specified key for all known assets",
+                "operationId": "get_price_dict",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Fiat",
+                            "pattern": "^[a-z]{3}$",
+                            "type": "string",
+                            "default": "usd"
+                        },
+                        "name": "fiat",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/PriceDictKeySegment"
+                            },
+                            "default": [
+                                "chain_id",
+                                "address"
+                            ]
+                        },
+                        "name": "by",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/PriceDictKeyGlue"
+                                }
+                            ],
+                            "default": "slash"
+                        },
+                        "name": "glue",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PriceDict"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/meta/balances/list": {
+            "get": {
+                "tags": [
+                    "Balance"
+                ],
+                "summary": "Get balance list",
+                "description": "Returns list of balances of specified addresses for all supported tokens and blockchains",
+                "operationId": "get_balance_list",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Addresses",
+                            "type": "array",
+                            "items": {
+                                "maxLength": 127,
+                                "minLength": 1,
+                                "type": "string"
+                            },
+                            "default": []
+                        },
+                        "name": "addresses",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BalanceList"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/meta/balances/dict": {
+            "get": {
+                "tags": [
+                    "Balance"
+                ],
+                "summary": "Get balance dict",
+                "description": "Returns dict of balances of specified addresses for all supported tokens and blockchains",
+                "operationId": "get_balance_dict",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Addresses",
+                            "type": "array",
+                            "items": {
+                                "maxLength": 127,
+                                "minLength": 1,
+                                "type": "string"
+                            },
+                            "default": []
+                        },
+                        "name": "addresses",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/BalanceDictKeySegment"
+                            },
+                            "default": [
+                                "chain_id",
+                                "address"
+                            ]
+                        },
+                        "name": "by",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/BalanceDictKeyGlue"
+                                }
+                            ],
+                            "default": "slash"
+                        },
+                        "name": "glue",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BalanceDict"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AssetBalance": {
+                "title": "AssetBalance",
+                "required": [
+                    "chain_id",
+                    "address",
+                    "balance"
+                ],
+                "type": "object",
+                "properties": {
+                    "chain_id": {
+                        "title": "Chain Id",
+                        "type": "string"
+                    },
+                    "address": {
+                        "title": "Address",
+                        "type": "string"
+                    },
+                    "balance": {
+                        "$ref": "#/components/schemas/DecimalAmount"
+                    }
+                }
+            },
+            "BalanceDict": {
+                "title": "BalanceDict",
+                "required": [
+                    "balances"
+                ],
+                "type": "object",
+                "properties": {
+                    "balances": {
+                        "title": "Balances",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/components/schemas/DecimalAmount"
+                            }
+                        }
+                    }
+                }
+            },
+            "BalanceDictKeyGlue": {
+                "title": "BalanceDictKeyGlue",
+                "enum": [
+                    "slash",
+                    "colon",
+                    "plus",
+                    "minus"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "BalanceDictKeySegment": {
+                "title": "BalanceDictKeySegment",
+                "enum": [
+                    "chain_id",
+                    "address"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "BalanceInfo": {
+                "title": "BalanceInfo",
+                "required": [
+                    "address",
+                    "assets"
+                ],
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "title": "Address",
+                        "type": "string"
+                    },
+                    "assets": {
+                        "title": "Assets",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AssetBalance"
+                        }
+                    }
+                }
+            },
+            "BalanceList": {
+                "title": "BalanceList",
+                "required": [
+                    "balances"
+                ],
+                "type": "object",
+                "properties": {
+                    "balances": {
+                        "title": "Balances",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BalanceInfo"
+                        }
+                    }
+                }
+            },
+            "DecimalAmount": {
+                "title": "DecimalAmount",
+                "required": [
+                    "v",
+                    "d"
+                ],
+                "type": "object",
+                "properties": {
+                    "v": {
+                        "title": "value",
+                        "type": "string"
+                    },
+                    "d": {
+                        "title": "decimals",
+                        "type": "integer"
+                    }
+                }
+            },
+            "FiatFormat": {
+                "title": "FiatFormat",
+                "enum": [
+                    "sign_amount",
+                    "amount_sign"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "FiatInfo": {
+                "title": "FiatInfo",
+                "required": [
+                    "name",
+                    "symbol",
+                    "sign",
+                    "decimals",
+                    "separator",
+                    "format"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "symbol": {
+                        "title": "Symbol",
+                        "type": "string"
+                    },
+                    "sign": {
+                        "title": "Sign",
+                        "type": "string"
+                    },
+                    "decimals": {
+                        "title": "Decimals",
+                        "type": "integer"
+                    },
+                    "separator": {
+                        "title": "Separator",
+                        "type": "string"
+                    },
+                    "format": {
+                        "$ref": "#/components/schemas/FiatFormat"
+                    }
+                }
+            },
+            "FiatList": {
+                "title": "FiatList",
+                "required": [
+                    "fiats"
+                ],
+                "type": "object",
+                "properties": {
+                    "fiats": {
+                        "title": "Fiats",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FiatInfo"
+                        }
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "PriceDict": {
+                "title": "PriceDict",
+                "required": [
+                    "fiat",
+                    "prices"
+                ],
+                "type": "object",
+                "properties": {
+                    "fiat": {
+                        "$ref": "#/components/schemas/FiatInfo"
+                    },
+                    "prices": {
+                        "title": "Prices",
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/DecimalAmount"
+                        }
+                    }
+                }
+            },
+            "PriceDictKeyGlue": {
+                "title": "PriceDictKeyGlue",
+                "enum": [
+                    "slash",
+                    "colon",
+                    "plus",
+                    "minus"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "PriceDictKeySegment": {
+                "title": "PriceDictKeySegment",
+                "enum": [
+                    "chain_id",
+                    "address"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "PriceInfo": {
+                "title": "PriceInfo",
+                "required": [
+                    "chain_id",
+                    "address",
+                    "price"
+                ],
+                "type": "object",
+                "properties": {
+                    "chain_id": {
+                        "title": "Chain Id",
+                        "type": "string"
+                    },
+                    "address": {
+                        "title": "Address",
+                        "type": "string"
+                    },
+                    "price": {
+                        "$ref": "#/components/schemas/DecimalAmount"
+                    }
+                }
+            },
+            "PriceList": {
+                "title": "PriceList",
+                "required": [
+                    "fiat",
+                    "prices"
+                ],
+                "type": "object",
+                "properties": {
+                    "fiat": {
+                        "$ref": "#/components/schemas/FiatInfo"
+                    },
+                    "prices": {
+                        "title": "Prices",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PriceInfo"
+                        }
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

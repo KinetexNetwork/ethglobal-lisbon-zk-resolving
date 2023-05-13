@@ -1,0 +1,15 @@
+{
+  "short_name": "Kinetex Flash",
+  "name": "Kinetex Flash Prototype",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48 32x32 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#156AE8",
+  "background_color": "#156AE8"
+}

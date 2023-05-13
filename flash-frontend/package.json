@@ -1,0 +1,86 @@
+{
+  "name": "kinetex-flash-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.129",
+    "@mui/material": "^5.13.0",
+    "@tanstack/react-query": "^4.29.5",
+    "@tanstack/react-query-devtools": "^4.29.6",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/jest": "^29.5.1",
+    "@types/node": "^20.1.2",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "@web3modal/ethereum": "^2.3.7",
+    "@web3modal/react": "^2.3.7",
+    "assert": "^2.0.0",
+    "axios": "^1.4.0",
+    "dayjs": "^1.11.7",
+    "env-cmd": "^10.1.0",
+    "eslint-config-prettier": "^8.8.0",
+    "https-browserify": "^1.0.0",
+    "orval": "^6.15.0",
+    "os-browserify": "^0.3.0",
+    "prettier": "^2.8.8",
+    "process": "^0.11.10",
+    "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "recoil": "^0.7.7",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "typescript": "^5.0.4",
+    "usehooks-ts": "^2.9.1",
+    "wagmi": "^0.12.12",
+    "web-vitals": "^3.3.1",
+    "webpack-bundle-analyzer": "^4.8.0"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "s": "yarn start",
+    "build": "yarn env-cmd -e prod react-app-rewired build",
+    "b": "yarn build",
+    "test": "react-app-rewired test",
+    "t": "yarn test",
+    "eslint": "eslint --quiet --fix $(git diff HEAD --name-only --diff-filter d src | xargs) $(git ls-files -z -o --exclude-standard -- src | xargs -0)",
+    "eslint:all": "eslint --quiet --fix src",
+    "prettier": "prettier --write $(git diff HEAD --name-only --diff-filter d src | xargs) $(git ls-files -z -o --exclude-standard -- src | xargs -0)",
+    "prettier:all": "prettier --write src",
+    "pret": "yarn eslint && yarn prettier",
+    "p": "yarn pret",
+    "pret:all": "yarn eslint:all && yarn prettier:all",
+    "pa": "yarn pret:all",
+    "gen:api:v2": "orval --config tools/api/v2/orval.config.ts",
+    "ga2": "yarn gen:api:v2",
+    "gen:api:meta": "orval --config tools/api/meta/orval.config.ts",
+    "gam": "yarn gen:api:meta",
+    "gen:api": "yarn gen:api:v2 && yarn gen:api:meta",
+    "ga": "yarn gen:api"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
