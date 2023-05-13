@@ -1,0 +1,59 @@
+diff --git a/node_modules/@eth-optimism/contracts-bedrock/contracts/libraries/rlp/RLPReader.sol b/node_modules/@eth-optimism/contracts-bedrock/contracts/libraries/rlp/RLPReader.sol
+index d62096d..2e91501 100644
+--- a/node_modules/@eth-optimism/contracts-bedrock/contracts/libraries/rlp/RLPReader.sol
++++ b/node_modules/@eth-optimism/contracts-bedrock/contracts/libraries/rlp/RLPReader.sol
+@@ -356,4 +356,54 @@ library RLPReader {
+ 
+         return out;
+     }
++
++    /**
++     * Reads an RLP bytes32 value into a bytes32.
++     * @param _in RLP bytes32 value.
++     * @return Decoded bytes32.
++     */
++    function readBytes32(RLPItem memory _in) internal pure returns (bytes32) {
++        require(_in.length <= 33, "Invalid RLP bytes32 value.");
++
++        (uint256 itemOffset, uint256 itemLength, RLPItemType itemType) = _decodeLength(_in);
++
++        require(itemType == RLPItemType.DATA_ITEM, "Invalid RLP bytes32 value.");
++
++        uint256 ptr = MemoryPointer.unwrap(_in.ptr) + itemOffset;
++        bytes32 out;
++        assembly {
++            out := mload(ptr)
++
++            // Shift the bytes over to match the item size.
++            if lt(itemLength, 32) {
++                out := div(out, exp(256, sub(32, itemLength)))
++            }
++        }
++
++        return out;
++    }
++
++    /**
++     * Reads an RLP uint256 value into a uint256.
++     * @param _in RLP uint256 value.
++     * @return Decoded uint256.
++     */
++    function readUint256(RLPItem memory _in) internal pure returns (uint256) {
++        return uint256(readBytes32(_in));
++    }
++
++    /**
++     * Reads an RLP address value into a address.
++     * @param _in RLP address value.
++     * @return Decoded address.
++     */
++    function readAddress(RLPItem memory _in) internal pure returns (address) {
++        if (_in.length == 1) {
++            return address(0);
++        }
++
++        require(_in.length == 21, "Invalid RLP address value.");
++
++        return address(uint160(readUint256(_in)));
++    }
+ }
