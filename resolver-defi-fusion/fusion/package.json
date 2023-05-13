@@ -1,0 +1,42 @@
+{
+  "name": "fusion-service",
+  "version": "1.0.0",
+  "description": "Fusion Service",
+  "private": true,
+  "scripts": {
+    "build": "yarn tsc",
+    "b": "yarn build",
+    "build:watch": "yarn tsc --watch",
+    "bw": "yarn build:watch",
+    "serve": "NODE_PATH=./build yarn nodemon -w build -w .env build/index.js",
+    "s": "yarn serve",
+    "serve:dev": "yarn bw & yarn s",
+    "sd": "yarn serve:dev",
+    "pretty": "prettier --write src",
+    "p": "yarn pretty",
+    "test:build": "yarn tsc -p test",
+    "tb": "yarn test:build",
+    "test:build:watch": "yarn tsc -p test --watch",
+    "tbw": "yarn test:build:watch",
+    "test:run": "NODE_PATH=./test/build yarn node test/build/index.js",
+    "tr": "yarn test:run",
+    "test": "yarn tb && yarn tr",
+    "t": "yarn test"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.16",
+    "@types/node": "^20.1.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.3",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@1inch/fusion-sdk": "^0.1.7",
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^5.0.0-beta.1",
+    "web3": "^1.10.0"
+  }
+}

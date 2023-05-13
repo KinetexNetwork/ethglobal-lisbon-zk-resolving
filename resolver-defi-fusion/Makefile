@@ -74,17 +74,18 @@ build_mm: $(if $(f), build_base)
 .PHONY: build_mm_redis
 build_mm_redis: $(if $(f), build_redis)
 	$(call build_image,mm_redis,mm_redis)
-
-.PHONY: build_proof
-build_proof: $(if $(f), build_proof)
-	$(call build_image,proof,proof)
+.PHONY: build_fusion
+build_fusion: $(if $(f), build_fusion)
+	$(call build_image,fusion,fusion)
 
 
 .PHONY: build
 build: \
+	build_api \
+	build_api_redis \
 	build_mm \
 	build_mm_redis \
-	build_proof
+	build_fusion
 
 
 # Pull Services
