@@ -1,0 +1,27 @@
+# Service templates
+
+x-service: &service
+  env_file:
+    - .env
+
+
+# Compose
+
+version: '3.9'
+services:
+  #
+  # api
+  #
+
+  api:
+    <<: *service
+    image: api:latest
+    ports:
+      - $API_DISCOVERY_PORT:$API_DISCOVERY_PORT
+
+  api_redis:
+    image: api_redis:latest
+    volumes:
+      - $API_REDIS_VOLUME:$DEFAULT_REDIS_VOLUME
+    ports:
+      - $API_REDIS_PORT:$API_REDIS_PORT
