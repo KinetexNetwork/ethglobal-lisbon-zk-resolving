@@ -1,0 +1,27 @@
+{
+	"name": "lightclient-observer",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "tsc",
+		"start": "tsc && node build/app.js",
+		"codegen": "orval --config ./source/orval.config.ts"
+	},
+	"engines": {
+		"node": ">=18.3.0"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@types/node": "^20.1.3",
+		"axios": "^1.4.0",
+		"dayjs": "^1.11.7",
+		"dotenv": "^16.0.3",
+		"ethers": "5"
+	},
+	"devDependencies": {
+		"orval": "^6.15.0"
+	}
+}
