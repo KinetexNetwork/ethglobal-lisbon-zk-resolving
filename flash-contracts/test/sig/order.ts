@@ -20,6 +20,7 @@ const ORDER_TYPES: Record<string, TypedDataField[]> = {
     { type: 'uint256', name: 'toAmount' },
     { type: 'uint256', name: 'collateralChain' },
     { type: 'uint256', name: 'collateralAmount' },
+    { type: 'uint256', name: 'collateralBounty' },
     { type: 'uint256', name: 'collateralUnlocked' },
     { type: 'uint256', name: 'deadline' },
     { type: 'uint256', name: 'nonce' },

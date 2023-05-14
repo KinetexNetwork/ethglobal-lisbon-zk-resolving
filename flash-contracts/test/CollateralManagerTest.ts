@@ -38,6 +38,7 @@ describe('CollateralManagerTest', function () {
       toAmount: amount(43),
       collateralChain: TEST_CHAIN_ID,
       collateralAmount: amount(21),
+      collateralBounty: amount(3),
       collateralUnlocked: amount(100),
       deadline: await nowSeconds() + hoursToSeconds(1),
       nonce: 13377331,
@@ -304,7 +305,7 @@ describe('CollateralManagerTest', function () {
     }
 
     const unlockedAfter = await kinetexFlashTest.unlockedCollateralAmount(accounts.another.address, OTHER_CHAIN_ID);
-    expect(unlockedAfter).to.be.equal(unlockedBefore.add(amount(21)));
+    expect(unlockedAfter).to.be.equal(unlockedBefore.add(amount(24)));
 
     await expectRevert(
       kinetexFlashTest.connect(accounts.another).confirmOrderAssetSend(order, sendProof),
@@ -328,6 +329,7 @@ describe('CollateralManagerTest', function () {
 
     const unlockedBefore = await kinetexFlashTest.unlockedCollateralAmount(accounts.another.address, OTHER_CHAIN_ID);
     const balanceBefore = await tokens.collateral.balanceOf(accounts.other.address);
+    const callerBalanceBefore = await tokens.collateral.balanceOf(accounts.owner.address);
 
     await expectRevert(
       kinetexFlashTest.slashOrderCollateral(order, receiveProof),
@@ -356,8 +358,10 @@ describe('CollateralManagerTest', function () {
 
     const unlockedAfter = await kinetexFlashTest.unlockedCollateralAmount(accounts.another.address, OTHER_CHAIN_ID);
     const balanceAfter = await tokens.collateral.balanceOf(accounts.other.address);
+    const callerBalanceAfter = await tokens.collateral.balanceOf(accounts.owner.address);
     expect(unlockedAfter).to.be.equal(unlockedBefore);
     expect(balanceAfter).to.be.equal(balanceBefore.add(amount(21)));
+    expect(callerBalanceAfter).to.be.equal(callerBalanceBefore.add(amount(3)));
 
     await expectRevert(
       kinetexFlashTest.connect(accounts.another).confirmOrderAssetSend(order, receiveProof),

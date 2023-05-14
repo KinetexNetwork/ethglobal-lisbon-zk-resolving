@@ -35,7 +35,7 @@ abstract contract OrderReceiver is IOrderReceiver {
         address signer = SigLib.verifyTypedSig(orderHash, r_, vs_);
         require(signer == order_.fromActor, "OR: invalid from sig");
 
-        uint256 lockedAmount = lockedCollateralAmount[msg.sender] + order_.collateralAmount;
+        uint256 lockedAmount = lockedCollateralAmount[msg.sender] + order_.collateralAmount + order_.collateralBounty;
         require(lockedAmount <= order_.collateralUnlocked, "OR: insufficient collateral");
         lockedCollateralAmount[msg.sender] = lockedAmount;
 

@@ -69,7 +69,7 @@ abstract contract CollateralManager is ICollateralManager {
         bytes32 orderHash = _validateOrder(order_);
         proofVerifier().verifyHashEventProof(SEND_EVENT_SIG, orderHash, order_.toChain, sendProof_);
         require(EnvLib.isActiveDeadline(order_.deadline), "CM: confirm exceeded deadline");
-        unlockedCollateralAmount[order_.toActor][order_.fromChain] += order_.collateralAmount;
+        unlockedCollateralAmount[order_.toActor][order_.fromChain] += order_.collateralAmount + order_.collateralBounty;
         NonceBitmapLib.invalidateNonce(order_.nonce, _resolvedNonceBitmap[order_.toActor]);
         emit OrderSendConfirm(orderHash);
     }
@@ -78,8 +78,9 @@ abstract contract CollateralManager is ICollateralManager {
         bytes32 orderHash = _validateOrder(order_);
         proofVerifier().verifyHashEventProof(RECEIVE_EVENT_SIG, orderHash, order_.fromChain, receiveProof_);
         require(!EnvLib.isActiveDeadline(order_.deadline), "CM: slash not reached");
-        collateralAmount[order_.toActor][order_.fromChain] -= order_.collateralAmount;
+        collateralAmount[order_.toActor][order_.fromChain] -= order_.collateralAmount + order_.collateralBounty;
         collateralToken().safeTransfer(order_.fromActor, order_.collateralAmount);
+        collateralToken().safeTransfer(msg.sender, order_.collateralBounty);
         NonceBitmapLib.invalidateNonce(order_.nonce, _resolvedNonceBitmap[order_.toActor]);
         emit OrderCollateralSlash(orderHash);
     }

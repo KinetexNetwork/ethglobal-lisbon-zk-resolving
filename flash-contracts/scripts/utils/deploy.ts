@@ -1,5 +1,5 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import { formatHexBytesSize } from './format';
+import { formatHexBytesSize } from '../utils/format';
 import { logPropertyGroup } from './property';
 import { required } from './required';
 

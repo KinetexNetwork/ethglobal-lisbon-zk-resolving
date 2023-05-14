@@ -33,6 +33,7 @@ describe('OrderSenderTest', function () {
       toAmount: amount(43),
       collateralChain: ANOTHER_CHAIN_ID,
       collateralAmount: amount(21),
+      collateralBounty: amount(3),
       collateralUnlocked: amount(100),
       deadline: await nowSeconds() + hoursToSeconds(1),
       nonce: 13377331,

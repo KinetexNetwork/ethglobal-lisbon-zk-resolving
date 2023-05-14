@@ -35,7 +35,8 @@ describe('OrderReceiverTest', function () {
       toAmount: amount(43),
       collateralChain: OTHER_CHAIN_ID,
       collateralAmount: amount(21),
-      collateralUnlocked: amount(25),
+      collateralBounty: amount(1),
+      collateralUnlocked: amount(125),
       deadline: await nowSeconds() + hoursToSeconds(1),
       nonce: 13377331,
     };
@@ -62,11 +63,11 @@ describe('OrderReceiverTest', function () {
     const { accounts, tokens, kinetexFlashTest, order, orderHash } = await loadFixture(deployFixture);
 
     await tokens.other.mint(accounts.other.address, amount(123));
-    await tokens.other.connect(accounts.other).approve(kinetexFlashTest.address, amount(65));
+    await tokens.other.connect(accounts.other).approve(kinetexFlashTest.address, amount(67));
 
     const orderSig = await signOrder(order, accounts.other);
 
-    await kinetexFlashTest.setLockedCollateralAmount(accounts.another.address, amount(5)); // 25 - 5 = 20 >= 21 (❌)
+    await kinetexFlashTest.setLockedCollateralAmount(accounts.another.address, amount(104)); // 125 - 104 = 21 >= 22 (❌)
 
     await expectRevert(
       kinetexFlashTest.receiveOrderAsset(order, orderSig.r, orderSig.vs),
@@ -78,7 +79,7 @@ describe('OrderReceiverTest', function () {
       'OR: insufficient collateral',
     );
 
-    await kinetexFlashTest.setLockedCollateralAmount(accounts.another.address, amount(4)); // 25 - 4 = 21 >= 21 (✅)
+    await kinetexFlashTest.setLockedCollateralAmount(accounts.another.address, amount(103)); // 125 - 103 = 22 >= 22 (✅)
 
     {
       const received = await kinetexFlashTest.orderAssetReceived(accounts.another.address, order.nonce);
@@ -111,7 +112,7 @@ describe('OrderReceiverTest', function () {
     const lockedCollateralAfter = await kinetexFlashTest.lockedCollateralAmount(accounts.another.address);
     expect(otherBalanceAfter).to.be.equal(otherBalanceBefore.sub(amount(65)));
     expect(anotherBalanceAfter).to.be.equal(anotherBalanceBefore.add(amount(65)));
-    expect(lockedCollateralAfter).to.be.equal(lockedCollateralBefore.add(amount(21)));
+    expect(lockedCollateralAfter).to.be.equal(lockedCollateralBefore.add(amount(22)));
 
     await expectRevert(
       kinetexFlashTest.connect(accounts.another).receiveOrderAsset(order, orderSig.r, orderSig.vs),
@@ -123,7 +124,11 @@ describe('OrderReceiverTest', function () {
         ...order,
         fromAmount: amount(33),
         nonce: BigNumber.from(order.nonce).add(1),
-        collateralUnlocked: BigNumber.from(order.collateralUnlocked).add(BigNumber.from(order.collateralAmount)),
+        collateralUnlocked: (
+          BigNumber.from(order.collateralUnlocked)
+            .add(BigNumber.from(order.collateralAmount))
+            .add(BigNumber.from(order.collateralBounty))
+        ),
       };
       const neighborOrderSig = await signOrder(neighborOrder, accounts.other);
 

@@ -13,6 +13,7 @@ struct Order {
     uint256 toAmount;
     uint256 collateralChain;
     uint256 collateralAmount;
+    uint256 collateralBounty;
     uint256 collateralUnlocked;
     uint256 deadline;
     uint256 nonce;

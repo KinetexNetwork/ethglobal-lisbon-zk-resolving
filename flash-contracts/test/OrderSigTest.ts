@@ -23,6 +23,7 @@ describe('OrderSigTest', function () {
       toAmount: '3456',
       collateralChain: '69',
       collateralAmount: '1234',
+      collateralBounty: '3301',
       collateralUnlocked: '6996',
       deadline: '12345678901234567890',
       nonce: '421337',
