@@ -1,0 +1,6 @@
+[submodule "zk-lightclient/telepathy-circuits"]
+	path = zk-lightclient/telepathy-circuits
+	url = https://github.com/KinetexNetwork/telepathy-circuits
+[submodule "zk-lightclient/telepathy-contracts"]
+	path = zk-lightclient/telepathy-contracts
+	url = https://github.com/KinetexNetwork/telepathy-contracts
