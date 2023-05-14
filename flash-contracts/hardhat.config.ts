@@ -13,6 +13,7 @@ const OPTIMISM_RPC_URL = process.env.OPTIMISM_RPC_URL || '';
 const AVALANCHE_RPC_URL = process.env.AVALANCHE_RPC_URL || '';
 const ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL || '';
 const GNOSIS_RPC_URL = process.env.GNOSIS_RPC_URL || '';
+const SCROLL_RPC_URL = process.env.SCROLL_RPC_URL || '';
 
 const ETHEREUM_TEST_RPC_URL = process.env.ETHEREUM_TEST_RPC_URL || '';
 const BINANCE_TEST_RPC_URL = process.env.BINANCE_TEST_RPC_URL || '';
@@ -71,6 +72,10 @@ const config: HardhatUserConfig = {
     },
     gnosis: {
       url: GNOSIS_RPC_URL,
+      accounts: [DEPLOYER_PRIVATE_KEY],
+    },
+    scroll: {
+      url: SCROLL_RPC_URL,
       accounts: [DEPLOYER_PRIVATE_KEY],
     },
     ethereumTest: {
